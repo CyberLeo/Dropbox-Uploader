@@ -395,10 +395,8 @@ function db_stat
     grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"
     if [[ $? == 0 && $IS_DELETED != "true" ]]; then
 
-        local IS_DIR=$(sed -n 's/^\(.*\)\"contents":.\[.*/\1/p' "$RESPONSE_FILE")
-
         #It's a directory
-        if [[ $IS_DIR != "" ]]; then
+        if grep -q '"contents":.\[' "$RESPONSE_FILE"; then
             echo "DIR"
         #It's a file
         else
@@ -1000,10 +998,8 @@ function db_list
     #Check
     if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
 
-        local IS_DIR=$(sed -n 's/^\(.*\)\"contents":.\[.*/\1/p' "$RESPONSE_FILE")
-
         #It's a directory
-        if [[ $IS_DIR != "" ]]; then
+        if grep -q '"contents":.\[' "$RESPONSE_FILE"; then
 
             print "DONE\n"
 
